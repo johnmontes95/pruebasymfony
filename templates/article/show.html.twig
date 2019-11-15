@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Read {{ title }} {% endblock title %}
+
+{% block body %}
+{# John Montes #}
+<h1>{{ title }}</h1>
+<p>{{ comments }}</p>
+
+<h2>Lista ({{ lista|length }})</h2>
+{% for elemento in lista %}
+<li>{{ elemento }}</li>
+{% endfor %}
+
+{% endblock body %}
