@@ -11,14 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="app_homepage")
      */
     public function homepage(){
-        return new Response("Primera página");
+        return $this->render('article/homepage.html.twig');
     }
 
     /**
-     * @Route("/news/{slug}")
+     * @Route("/news/{slug}", name="article_show")
      */
     public function show($slug){
 
@@ -33,6 +33,8 @@ class ArticleController extends AbstractController
         ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus 
         id ultricies mauris. Mauris a volutpat velit.';
 
+
+
         $lista = [
             'Primer elemento',
             'Segundo elemento',
@@ -44,5 +46,13 @@ class ArticleController extends AbstractController
           'comments' => $comments,
           'lista' => $lista,
         ]);
+    }
+
+    /**
+     * @Route("/news/{slug}/heart", name="article_toggle_heart")
+     */
+    public function toggleArticleHeart($slug){
+
+        return $this->json(['hearts' => rand(5, 100)]);
     }
 }
