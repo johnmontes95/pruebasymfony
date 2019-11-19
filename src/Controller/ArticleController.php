@@ -4,9 +4,11 @@
 namespace App\Controller;
 
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class ArticleController extends AbstractController
 {
@@ -41,18 +43,21 @@ class ArticleController extends AbstractController
             'Tercer elemento'
         ];
 
-      return $this->render('article/show.html.twig', [
+        return $this->render('article/show.html.twig', [
           'title' =>  ucwords(str_replace('-', ' ', $slug)),
-          'comments' => $comments,
+          'slug' => $slug,
           'lista' => $lista,
+          'comments' => $comments,
         ]);
+
     }
 
     /**
      * @Route("/news/{slug}/heart", name="article_toggle_heart")
      */
-    public function toggleArticleHeart($slug){
+    public function toggleArticleHeart($slug, LoggerInterface $logger){
 
+        $logger->info('Article is being hearted');
         return $this->json(['hearts' => rand(5, 100)]);
     }
 }
