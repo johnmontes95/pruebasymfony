@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,26 +15,29 @@ use Twig\Environment;
 
 class ArticleController extends AbstractController
 {
+
+    private $isDebug;
+    public function __construct(bool $isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage(){
-        return $this->render('article/homepage.html.twig');
+    public function homepage(ArticleRepository $repository){
+
+        $articles = $repository->findAllPublishedOrderedByNewest();
+        return $this->render('article/homepage.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug, EntityManagerInterface $em){
+    public function show(Article $article, EntityManagerInterface $em){
 
-
-        $repository = $em->getRepository(Article::class);
-
-        $article = $repository->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-        }
 
 
         $lista = [
