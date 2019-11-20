@@ -8,6 +8,7 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+
     public function getFilters(): array
     {
         return [
