@@ -4,9 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Tag;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ArticleFixtures extends BaseFixture
+class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
 {
 
     private static $articleTitles = [
@@ -56,20 +58,29 @@ class ArticleFixtures extends BaseFixture
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages));
 
-            $comment1 = new Comment();
-            $comment1->setAuthorName('Mike Ferengi');
-            $comment1->setContent('I ate a normal rock once. It did NOT taste like bacon!');
-            $comment1->setArticle($article);
-            $manager->persist($comment1);
+            $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
 
-            $comment2 = new Comment();
-            $comment2->setAuthorName('Mike Ferengi');
-            $comment2->setContent('I ate a normal rock once. It did NOT taste like bacon!');
-            $comment2->setArticle($article);
-            $manager->persist($comment2);
+            foreach($tags as $tag){
+                $article->addTag($tag);
+            }
 
         });
 
         $manager->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        // TODO: Implement getDependencies() method.
+
+        return [
+            TagFixture::class,
+        ];
     }
 }

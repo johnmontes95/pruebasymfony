@@ -37,13 +37,6 @@ class ArticleController extends AbstractController
     public function show(Article $article){
 
 
-
-        $lista = [
-            'Primer elemento',
-            'Segundo elemento',
-            'Tercer elemento'
-        ];
-
         return $this->render('article/show.html.twig', [
           'article' => $article,
         ]);

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
@@ -25,7 +26,13 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findAllPublishedOrderedByNewest()
     {
+
+        $this->createQueryBuilder('a')
+            ->addCriteria(self::createNonDeletedCriteria());
+
         return $this->addIsPublishedQueryBuilder()
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
@@ -33,6 +40,13 @@ class ArticleRepository extends ServiceEntityRepository
 
     }
 
+    public static function createNonDeletedCriteria() : Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isDeleted', false))
+            ->orderBy(['createdAt' => 'DESC'])
+            ;
+    }
 
     private function addIsPublishedQueryBuilder(QueryBuilder $qb = null)
     {
