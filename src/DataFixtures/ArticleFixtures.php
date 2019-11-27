@@ -30,7 +30,8 @@ class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
     {
         // TODO: Implement loadData() method.
 
-        $this->createMany(Article::class, 10, function (Article $article, $count) use ($manager){
+        $this->createMany(10, 'main_articles', function ($i) use ($manager){
+            $article = new Article();
             $article->setTitle($this->faker->randomElement(self::$articleTitles))
                 ->setContent("
             Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
@@ -58,12 +59,13 @@ class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages));
 
-            $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+            $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
 
             foreach($tags as $tag){
                 $article->addTag($tag);
             }
 
+            return $article;
         });
 
         $manager->flush();

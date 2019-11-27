@@ -12,8 +12,10 @@ class TagFixture extends BaseFixture
     {
         // TODO: Implement loadData() method.
 
-        $this->createMany(Tag::class, 10, function (Tag $tag){
+        $this->createMany(10, 'main_tags', function ($i){
+           $tag = new Tag();
            $tag->setName($this->faker->realText(20));
+           return $tag;
         });
 
         $manager->flush();
