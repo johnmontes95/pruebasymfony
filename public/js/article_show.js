@@ -5,6 +5,7 @@ $(document).ready(function(){
         var $link = $(e.currentTarget);
         $link.toggleClass('fa-heart-o').toggleClass('fa-heart');
 
+
         $.ajax({
                method: 'POST',
                url: $link.attr('href')
