@@ -42,24 +42,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 js-comments">
                             <h3><i class="pr-3 fa fa-comment"></i>{{ article.nonDeletedComments|length }} Comments</h3>
                             <hr>
 
-                            <div class="row mb-5">
+                            <div class="row mb-5" id="commentBox">
                                 <div class="col-sm-12">
                                     <img class="comment-img rounded-circle" src="{{ asset('images/astronaut-profile.png') }}">
                                     <div class="comment-container d-inline-block pl-3 align-top">
-                                        <span class="commenter-name">Amy Oort</span>
+                                        <span class="commenter-name">{{ app.user.firstName }}</span>
                                         <div class="form-group">
-                                            <textarea class="form-control comment-form" id="articleText" rows="1"></textarea>
+                                            <textarea class="form-control comment-form js-add-comment" id="articleText" rows="1"></textarea>
                                         </div>
-                                        <button type="submit" class="btn btn-info">Comment</button>
+                                        <button type="submit" data-url="{{ path('article_add_comment', {slug: article.title}) }}" class="btn btn-info js-comment-button">Comment</button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row" id="commentList">
                             {% for comment in article.nonDeletedComments %}
-                            <div class="row">
+                            <div class="row col-sm-12">
                                 <div class="col-sm-12">
                                     <img class="comment-img rounded-circle" src="{{ asset('images/alien-profile.png') }}">
                                     <div class="comment-container d-inline-block pl-3 align-top">
@@ -74,6 +75,7 @@
                                     </div>
                                 </div>
                             </div>{% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,4 +88,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/article_show.js') }}"></script>
+    <script src="{{ asset('js/add_comment.js') }}"></script>
 {% endblock %}
