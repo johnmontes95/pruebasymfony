@@ -36,7 +36,7 @@ class ArticleAdminController extends BaseController
             $uploadedFile = $form['imageFile']->getData();
 
             if($uploadedFile) {
-                $newFileName = $uploaderHelper->uploadArticleImage($uploadedFile);
+                $newFileName = $uploaderHelper->uploadArticleImage($uploadedFile, $article->getImageFilename());
                 $article->setImageFilename($newFileName);
             }
 
@@ -69,7 +69,7 @@ class ArticleAdminController extends BaseController
             $uploadedFile = $form['imageFile']->getData();
 
             if($uploadedFile) {
-                $newFileName = $uploaderHelper->uploadArticleImage($uploadedFile);
+                $newFileName = $uploaderHelper->uploadArticleImage($uploadedFile, $article->getImageFilename());
                 $article->setImageFilename($newFileName);
             }
             $em->persist($article);
@@ -83,7 +83,8 @@ class ArticleAdminController extends BaseController
         }
 
         return $this->render('article_admin/edit.html.twig', [
-            'articleForm' => $form->createView()
+            'articleForm' => $form->createView(),
+            'article' => $article,
         ]);
 
     }

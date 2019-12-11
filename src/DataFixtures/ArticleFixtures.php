@@ -102,7 +102,7 @@ class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
         $targetPath = sys_get_temp_dir().'/'.$randomImage;
         $fs->copy(__DIR__.'/images/'.$randomImage, $targetPath,true);
         return $this->uploaderHelper
-            ->uploadArticleImage(new File($targetPath));
+            ->uploadArticleImage(new File($targetPath), null);
     }
 
 }
