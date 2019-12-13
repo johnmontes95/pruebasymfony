@@ -29,9 +29,19 @@
           </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
-                     <li class="nav-item">
-                       <a style="color: #fff;" class="nav-link" href="#">Local Asteroids</a>
-                     </li>
+                    {% if is_granted('ROLE_ADMIN_ARTICLE') %}
+                         <li class="nav-item dropdown">
+                           <a style="color: #fff;" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Articles</a>
+                             <div class="dropdown-menu">
+                                 <a href="{{ path('admin_article_list')}}" class="dropdown-item">List</a>
+                                 <a href="{{ path('admin_article_new')}}" class="dropdown-item">New</a>
+                             </div>
+                         </li>
+
+                        <li class="nav-item">
+                            <a style="color: #fff;" class="nav-link" href="{{path('comment_admin')}}">Comments</a>
+                        </li>
+                    {% endif %}
                      <li class="nav-item">
                        <a style="color: #fff;" class="nav-link" href="#">Weather</a>
                      </li>
@@ -73,6 +83,12 @@
                 {{ message }}
             </div>
         {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
         {% block body %}{% endblock %}
 
         <footer class="footer">
