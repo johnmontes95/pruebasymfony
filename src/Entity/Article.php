@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use App\Service\UploaderHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -87,10 +88,16 @@ class Article
      */
     private $specificLocationName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleReference", mappedBy="article")
+     */
+    private $articleReferences;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->articleReferences = new ArrayCollection();
     }
 
 
@@ -184,7 +191,7 @@ class Article
     }
 
     public function getImagePath(){
-        return 'images/' . $this->getImageFilename();
+        return UploaderHelper::ARTICLE_IMAGE . '/' . $this->getImageFilename();
     }
 
     public function incrementHeartCount() : self{
@@ -311,4 +318,13 @@ class Article
 
         return $this;
     }
+
+    /**
+     * @return Collection|ArticleReference[]
+     */
+    public function getArticleReferences(): Collection
+    {
+        return $this->articleReferences;
+    }
+
 }

@@ -8,6 +8,8 @@
         "knplabs/knp-markdown-bundle": "^1.7",
         "knplabs/knp-paginator-bundle": "^4.1",
         "knplabs/knp-time-bundle": "^1.9",
+        "liip/imagine-bundle": "^2.2",
+        "oneup/flysystem-bundle": "^3.3",
         "sensio/framework-extra-bundle": "^5.5",
         "sensiolabs/security-checker": "^6.0",
         "stof/doctrine-extensions-bundle": "^1.3",
